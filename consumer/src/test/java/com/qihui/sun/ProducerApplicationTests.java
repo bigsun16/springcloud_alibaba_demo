@@ -1,7 +1,7 @@
 package com.qihui.sun;
 
 import com.qihui.sun.model.Article;
-import com.qihui.sun.service.impl.ArticleService;
+import com.qihui.sun.service.ArticleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

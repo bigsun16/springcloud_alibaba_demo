@@ -1,7 +1,6 @@
-package com.qihui.sun.service.impl;
+package com.qihui.sun.service;
 
 import com.qihui.sun.model.Article;
-import com.qihui.sun.service.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
