@@ -15,9 +15,10 @@ public class KafkaTestService {
         ack.acknowledge();
     }
 
-    /*@KafkaListener(topics = "testTopic", groupId = "consumer-group2")
+/*@KafkaListener(topics = "testTopic", groupId = "consumer-group2")
     public void consumer2(ConsumerRecords<String, String> records, Acknowledgment ack) {
         System.out.println(records.count());
         ack.acknowledge();
     }*/
+
 }

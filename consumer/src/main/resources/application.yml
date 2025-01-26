@@ -12,14 +12,14 @@ spring:
         server-addr: 192.168.10.128:8848
       config:
         server-addr: 192.168.10.128:8848
-  elasticsearch:
-    uris: http://192.168.10.128:9200
-    username: elastic
-    password: qihuis
   config:
     import:
       - optional:nacos:${spring.application.name}.yml
       - optional:nacos:common.yml
+  elasticsearch:
+    uris: http://192.168.10.128:9200
+    username: elastic
+    password: qihuis
   kafka:
     bootstrap-servers: 192.168.10.128:9092
     consumer:
