@@ -1,6 +1,6 @@
 package com.qihui.sun.controller;
 
-import com.alibaba.fastjson2.JSONArray;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qihui.sun.model.Article;
 import com.qihui.sun.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +14,15 @@ import java.util.List;
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @GetMapping("/list")
-    public JSONArray selectAllCategoryList(@RequestParam String categoryKey){
-        List<Article> categoryKey1 = articleService.searchByCategory(categoryKey);
-        return JSONArray.from(categoryKey1);
+    public List<Article> selectAllCategoryList(@RequestParam String categoryKey) {
+        return articleService.searchByCategory(categoryKey);
     }
+
     @PostMapping("/add")
-    public void addArticle(@RequestBody Article article){
+    public void addArticle(@RequestBody Article article) {
         articleService.save(article);
     }
 
