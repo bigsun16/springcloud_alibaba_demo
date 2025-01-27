@@ -1,7 +1,7 @@
 package com.qihui.sun.service;
 
 import com.qihui.sun.model.Article;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Setter;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
@@ -12,17 +12,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Setter
 @Service
 public class ArticleService {
-    @Autowired
-    private final ArticleRepository articleRepository;
-    @Autowired
+    private ArticleRepository articleRepository;
     private ElasticsearchOperations elasticsearchOperations;
-
-    public ArticleService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
-
 
     public void findAll() {
         articleRepository.findAll().forEach(System.out::println);

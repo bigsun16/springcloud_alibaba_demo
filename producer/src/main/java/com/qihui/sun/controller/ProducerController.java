@@ -1,11 +1,11 @@
-package com.qihui.sun;
+package com.qihui.sun.controller;
 
 import com.qihui.sun.config.TestConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,15 +22,10 @@ public class ProducerController {
     //使用了@ConfigurationProperties后去配置，就不需要@RefreshScope注解了
     @Autowired
     private TestConfigurationProperties testConfigurationProperties;
-    private KafkaTemplate<String, String> kafkaTemplate;
 
-    public ProducerController(KafkaTemplate<String, String> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return testConfigurationProperties.getName()+"============"+testConfigurationProperties.getAge();
+    @GetMapping("/test/{id}")
+    public String test(@PathVariable("id") String id) {
+        return testConfigurationProperties.getName()+"============"+testConfigurationProperties.getAge()+"====="+id;
     }
     @GetMapping("/getMessage")
     public String getMessage() {
@@ -38,8 +33,4 @@ public class ProducerController {
         return message + num + "ddd";
     }
 
-    @GetMapping("/sendKafkaMessage")
-    public void sendKafkaMessage() {
-        kafkaTemplate.send("testTopic", 0, "key", "this is a message");
-    }
 }

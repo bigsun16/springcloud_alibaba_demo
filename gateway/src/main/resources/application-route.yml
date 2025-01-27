@@ -1,0 +1,45 @@
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+        - id: consumer
+          uri: lb://consumer
+          order: 1
+          predicates:
+            - Path=/consumer/**
+          filters:
+            - OnceToken=X-Request-Foo, uuid #自定义过滤器
+        - id: producer
+          uri: lb://producer
+          order: 2
+          predicates:
+            - name: Path #自定义断言规则，此处为Path匹配规则，匹配路径的正则表达式。更多的断言规则，
+            #请参考：RoutePredicateFactory实现类,或查看文档 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories
+              args:
+                patterns: /producer/**
+                matchTrailSlash: true #是否匹配路径尾部的斜杠，默认为true
+          filters:
+            - RewritePath=/producer/(?<segment>.*), /$\{segment} #自定义过滤器，此处为路径重写规则,/producer/haha将被重写为/haha
+            - AddRequestHeader=X-Request-Foo, Bar #此处为添加请求头规则,X-Request-Foo为请求头名，Bar为请求头值
+        - id: bing
+          uri: https://cn.bing.com
+          order: 3 #如果不加order,这些id会根据定义顺序进行匹配，逻辑与Java异常捕获类似，如果将断言规则更宽泛的放前面，后面将无法路由到。
+          predicates: #localhost/search?q=haha&user=qihuis
+            - name: Path
+              args:
+                patterns: /search
+                matchTrailSlash: true
+            - name: Query #查询参数断言规则，此处为查询参数q的正则表达式匹配
+              args:
+                param: q #此处为查询参数名
+                regexp: haha #此处为查询参数值的正则表达式
+            - name: Vip #自定义断言规则，此处为自定义断言规则，此处为查询参数user的正则表达式匹配
+              args:
+                param: user
+                value: qihuis
+          metadata:
+            hello: world #自定义元数据，用于在过滤器中获取
+      default-filters:
+        - AddResponseHeader=X-Response-Default, Bar #此处为添加响应头规则,X-Response-Default为响应头名，Bar为响应头值

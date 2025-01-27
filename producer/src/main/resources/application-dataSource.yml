@@ -1,0 +1,15 @@
+spring:
+  kafka:
+    bootstrap-servers: 192.168.10.128:9092
+    producer:
+      retries: 3 # 重试次数
+      batch-size: 16384 # 批量大小
+      buffer-memory: 33554432 # 缓冲区大小
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all # 确认机制 当开启幂等性时必须设置为all
+      properties:
+        linger.ms: 10 # 延迟时间 单位ms 默认0 0表示立即发送 10表示延迟10ms
+        max.request.size: 1048576 # 单个请求最大值 单位byte
+        enable.idempotence: true # 幂等性
+        retry-backoff-ms: 1000 # 重试间隔时间 单位ms
